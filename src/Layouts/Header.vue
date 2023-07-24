@@ -1,42 +1,45 @@
 <template>
-  <nav
-    class="navbar navbar-expand-sm navbar-light p-2 sticky-top"
-    style="background-color: #fbfbfb"
-  >
-    <div class="container-fluid d-flex">
-      <div class="d-flex" id="navbarSupportedContent">
-        <a class="navbar-brand" href="#">
-          <img
-            src="../assets/foodpandalogo.png"
-            height="23"
-            alt="foodpanda Logo"
-            loading="lazy"
-          />
-        </a>
-        <h6 class="logo">foodpanda</h6>
-      </div>
-      <div @click="data.toggleNav()">
-        <i class="bi bi-cart-fill my-icon"></i>
-        <div class="badge badge-warning" id="lblCartCount">
-          {{ data.cartItems.length >= 1 ? data.countCartItems : null }}
+  <div>
+    <nav
+      class="navbar navbar-expand-sm navbar-light p-2 sticky-top"
+      style="background-color: #fbfbfb"
+    >
+      <div class="container-fluid d-flex">
+        <div class="d-flex" id="navbarSupportedContent">
+          <a class="navbar-brand" href="#">
+            <img
+              src="../assets/foodpandalogo.png"
+              height="23"
+              alt="foodpanda Logo"
+              loading="lazy"
+            />
+          </a>
+          <h6 class="logo">foodpanda</h6>
+        </div>
+
+        <div @click="clickbtn">
+          <i class="bi bi-cart-fill my-icon"></i>
+          <div class="badge badge-warning" id="lblCartCount">
+            {{ data.cartItems.length >= 1 ? data.countCartItems : null }}
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
-  <div
-    id="mySidebar"
-    class="sidebar text-center"
-    :class="{ opened: data.isOpen }"
-  >
-    <CartPage />
+    </nav>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { useAddCartStore } from "../stores/AddCartStore";
-import CartPage from "../components/CartPage.vue";
+const emits = defineEmits(["toggleCart"]);
 //get store
 const data = useAddCartStore();
+
+let toggle = ref(false);
+const clickbtn = () => {
+  toggle.value = !toggle.value;
+  emits("toggleCart", toggle.value);
+};
 </script>
 
 <style scoped>
